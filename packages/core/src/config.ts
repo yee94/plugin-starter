@@ -1,4 +1,4 @@
-import { Plugin, UserConfig } from './types';
+import { Plugin, ResolvedConfig, UserConfig } from './types';
 import { asyncFlatten, deepMerge } from './utils';
 import { createPluginContainer } from './plugin';
 
@@ -6,39 +6,26 @@ import { createPluginContainer } from './plugin';
  * Resolve the config into a usable format.
  * @param config
  */
-export async function resolveConfig(config: UserConfig) {
+export async function resolveConfig(config: UserConfig): Promise<ResolvedConfig> {
   const rawWorkerUserPlugins = ((await asyncFlatten(config.plugins || [])) as Plugin[]).filter(Boolean);
 
   const [workerPrePlugins, workerNormalPlugins, workerPostPlugins] = sortUserPlugins(rawWorkerUserPlugins);
 
-  let workerConfig = config;
+  let workerConfig = config as any;
 
   const workerUserPlugins = [...workerPrePlugins, ...workerNormalPlugins, ...workerPostPlugins];
 
   const pluginContainer = createPluginContainer(workerUserPlugins);
+
   workerConfig = await pluginContainer('config', [workerConfig], {
     iterate: mergeConfig as any,
   });
 
   workerConfig.plugins = workerUserPlugins;
 
+  await pluginContainer('configResolved', [workerConfig]);
+
   return workerConfig;
-}
-
-async function runConfigHook(config: UserConfig, plugins: Plugin[]): Promise<UserConfig> {
-  let conf = config;
-
-  for (const p of plugins) {
-    const handler = p.config;
-    if (handler) {
-      const res = await handler(conf);
-      if (res) {
-        conf = mergeConfig(conf, res);
-      }
-    }
-  }
-
-  return conf;
 }
 
 /**

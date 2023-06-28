@@ -1,5 +1,6 @@
 import { resolveConfig } from '../src/config';
 import { Plugin, PluginOption } from '../src/types';
+import {expect} from "vitest"
 
 describe('config', () => {
   it('should be get config from plugin', async () => {
@@ -70,5 +71,40 @@ describe('config', () => {
     expect(result).toMatchSnapshot();
   });
 
+  it('configResolved should be called', async () => {
+    const fn = vi.fn();
 
+    const result = await resolveConfig({
+      plugins: [
+        {
+          name: 'test5',
+          configResolved: fn,
+        },
+      ],
+    });
+
+    expect(fn).toBeCalled();
+    expect(result). toMatchInlineSnapshot(`
+      {
+        "plugins": [
+          {
+            "configResolved": [MockFunction spy] {
+              "calls": [
+                [
+                  [Circular],
+                ],
+              ],
+              "results": [
+                {
+                  "type": "return",
+                  "value": undefined,
+                },
+              ],
+            },
+            "name": "test5",
+          },
+        ],
+      }
+    `)
+  });
 });
