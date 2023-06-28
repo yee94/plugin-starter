@@ -1,0 +1,34 @@
+{
+  "name": "__PACKAGE_NAME__2",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "father build",
+    "dev": "father dev",
+    "init": "def dev",
+    "prepublishOnly": "npm run build",
+    "prettier": "pretty-quick --staged",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}

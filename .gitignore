@@ -1,0 +1,10 @@
+*.lock
+*.log
+
+.rpt2_cache/
+node_modules/
+.idea/
+.cache/
+dist/
+bundle/
+
