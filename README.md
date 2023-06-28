@@ -11,7 +11,7 @@ Inspired by [vite](https://vitejs.dev/). I very like the plugin design of [vite]
 npx degit yee94/plugin-starter <project name>
 ```
 
-# Features
+## Features
 
 - **defineConfig / TypeScript Support**. What ever you are writing a plugin or a config, you can jump to the definition to check the type & comment. It's very useful for our users to define a config. The ts can help our user to check the type & comment.
 - **Function Plugin**. We can use function to create a plugin. It's very easy to understand.
