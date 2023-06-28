@@ -21,14 +21,19 @@
   "scripts": {
     "build": "father build",
     "dev": "father dev",
-    "init": "def dev",
     "prepublishOnly": "npm run build",
     "prettier": "pretty-quick --staged",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
   "repository": {
     "type": "git",
     "url": ""
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.195"
   }
 }

@@ -4,6 +4,10 @@
     "dev": {},
     "build": {
       "dependsOn": ["^build"]
+    },
+    "test": {},
+    "test:watch": {
+      "cache": false
     }
   }
 }
