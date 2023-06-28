@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`config > should be flat plugin array 1`] = `
+{
+  "plugins": [
+    {
+      "enforce": "pre",
+      "name": "test3",
+    },
+    {
+      "enforce": "pre",
+      "name": "test5",
+    },
+    {
+      "name": "test",
+    },
+    {
+      "name": "test2",
+    },
+    {
+      "name": "test4",
+    },
+  ],
+}
+`;

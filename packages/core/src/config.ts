@@ -1,7 +1,6 @@
 import { Plugin, UserConfig } from './types';
-import { asyncFlatten } from './utils';
-
-import merge from 'lodash/merge';
+import { asyncFlatten, deepMerge } from './utils';
+import { createPluginContainer } from './plugin';
 
 /**
  * Resolve the config into a usable format.
@@ -16,7 +15,10 @@ export async function resolveConfig(config: UserConfig) {
 
   const workerUserPlugins = [...workerPrePlugins, ...workerNormalPlugins, ...workerPostPlugins];
 
-  workerConfig = await runConfigHook(workerConfig, workerUserPlugins);
+  const pluginContainer = createPluginContainer(workerUserPlugins);
+  workerConfig = await pluginContainer('config', [workerConfig], {
+    iterate: mergeConfig as any,
+  });
 
   workerConfig.plugins = workerUserPlugins;
 
@@ -44,8 +46,8 @@ async function runConfigHook(config: UserConfig, plugins: Plugin[]): Promise<Use
  * @param defaults
  * @param overrides
  */
-export function mergeConfig(defaults: Record<string, any>, overrides: Record<string, any>): UserConfig {
-  return merge(defaults, overrides);
+export function mergeConfig(defaults: Partial<UserConfig>, overrides: Partial<UserConfig>): UserConfig {
+  return deepMerge(defaults, overrides);
 }
 
 export function sortUserPlugins(plugins: (Plugin | Plugin[])[] | undefined): [Plugin[], Plugin[], Plugin[]] {

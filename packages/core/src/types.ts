@@ -15,6 +15,11 @@ export interface Plugin {
   config?: (this: void, config: UserConfig) => UserConfig | null | void | Promise<UserConfig | null | void>;
 }
 
+export type PluginFunctionKeys<T = Required<Plugin>> = {
+  [K in keyof T]: T[K] extends Function ? K : never;
+}[keyof T];
+
+
 export type PluginOption =
   | Plugin
   | false
